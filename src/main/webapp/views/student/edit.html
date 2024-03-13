@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<nav class="nav justify-content-center">
+    <a class="nav-link active" href="#">Quản lý danh mục</a>
+    <a class="nav-link" href="/category">Quản lý sản phẩm</a>
+</nav>
+
+<div class="container">
+    <form method="post" action="" th:object="${student}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Student Name</label>
+            <input name="student_name" th:field="*{student_name}" type="text" class="form-control" id="exampleInputEmail1"
+                   placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="examplefile">Student Image</label>
+            <img th:if="${student.image_url != null}" th:src="@{|/uploads/${student.image_url}|}" width="150px" alt="">
+            <input name="fileImage" type="file" class="form-control" id="examplefile">
+        </div>
+
+        <div class="form-group">
+            <label for="examplePhone">Phone number</label>
+            <input name="phone_number" th:field="*{phone_number}" type="tel" class="form-control" id="examplePhone">
+        </div>
+        <div class="form-group">
+            <label for="exampleAddress">Address</label>
+            <input name="address" th:field="*{address}" type="text" class="form-control" id="exampleAddress">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Sex</label>
+            <select name="sex" th:field="*{sex}" class="form-control" id="exampleFormControlSelect1">
+                <option value="0" th:selected="${student.sex} == false">Nam</option>
+                <option value="1" th:selected="${student.sex} == true">Nữ</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleBirth">Date of Birth</label>
+            <input th:date="*{birthday}" th:value="*{birthday}" type="date" required pattern="\d{4}-\d{2}-\d{2}" class="form-control"
+                   id="exampleBirth">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

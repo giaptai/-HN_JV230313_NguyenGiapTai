@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div th:if="${success != null}" class="alert alert-primary" role="alert">
+    <strong th:text="${success}"></strong>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add new Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" th:object="${student}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Student Name</label>
+                        <input name="student_name" type="text" class="form-control" id="exampleInputEmail1"
+                               placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="examplefile">Student Image</label>
+                        <input name="fileImage" type="file" class="form-control" id="examplefile">
+                    </div>
+                    <div class="form-group">
+                        <label for="examplePhone">Phone number</label>
+                        <input name="phone_number" type="tel" class="form-control" id="examplePhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleAddress">Address</label>
+                        <input name="address" type="text" class="form-control" id="exampleAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Sex</label>
+                        <select name="sex" class="form-control" id="exampleFormControlSelect1">
+                            <option value="0">Nam</option>
+                            <option value="1">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleBirth">Date of Birth</label>
+                        <input th:date="*{birthday}"  type="date" required pattern="\d{4}-\d{2}-\d{2}" class="form-control" id="exampleBirth">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <h2>Student Management</h2>
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Thêm mới sản phẩm
+        </button>
+        <form class="form-inline my-2 my-lg-0" method="get" action="/student">
+            <input class="form-control mr-sm-2" type="search" name="name" placeholder="Enter student's name" th:value="${searchName}" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Date Of Birth</th>
+            <th>Sex</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${students}">
+            <td th:text="${item.student_id}"></td>
+            <td th:text="${item.student_name}"></td>
+            <td>
+                <img th:if="${item.image_url != null}" th:src="@{|/uploads/${item.image_url}|}" width="150px">
+            </td>
+            <td th:text="${item.birthday}"></td>
+            <td th:text="${item.sex}"></td>
+            <td th:text="${item.phone_number}"></td>
+            <td th:text="${item.address}"></td>
+            <td>
+                <a th:href="@{/edit/{id}(id=${item.student_id})}" class="btn btn-warning">Edit</a>
+                <a th:href="@{/delete/{id}(id=${item.student_id})}" onclick="return confirm('CHẮC MUỐN XÓA KHÔNG')" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
