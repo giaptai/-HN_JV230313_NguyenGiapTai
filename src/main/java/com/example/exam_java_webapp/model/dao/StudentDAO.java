@@ -61,11 +61,12 @@ public class StudentDAO implements IStudentDAO {
     public List<Student> findByName(String name) {
         Session session = sessionFactory.openSession();
         try {
-            String sql = "SELECT C.student_name FROM Student C WHERE C.student_name LIKE :name";
+            String sql = "SELECT C FROM Student C WHERE C.student_name LIKE :name";
             Query query = session.createQuery(sql);
             query.setParameter("name", "%" + name + "%");
-            if (!query.getResultList().isEmpty()) {
-                return (List<Student>) query.getResultList();
+            List<Student> students = (List<Student>) query.getResultList();
+            if (!students.isEmpty()) {
+                return students;
             }
             return null;
         } catch (Exception e) {
